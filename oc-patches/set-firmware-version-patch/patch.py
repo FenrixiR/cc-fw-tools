@@ -10,7 +10,7 @@ def extract_commit() -> str:
     split_output = git_describe_output.split("-")
 
     if (len(split_output) >= 3):
-        version = f"{split_output[0]}-{split_output[2][1:]}"
+        version = f"b{split_output[0]}-{split_output[2][1:]}"
     else:
         version = split_output[0]
 
