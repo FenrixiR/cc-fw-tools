@@ -19,6 +19,14 @@ else
     exit 1
 fi
 
+file_size="$(wc -c < "$FILE")"
+
+if [[ ! "$file_size" = "391734" ]]
+then
+    echo "File size is incorrect: $file_size bytes (expected 391734 bytes)"
+    exit 1
+fi
+
 mount -o remount,rw /boot-resource
 cp "$FILE" /boot-resource/bootlogo.bmp
 sync
