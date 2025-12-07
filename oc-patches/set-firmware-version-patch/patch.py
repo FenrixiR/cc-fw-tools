@@ -27,7 +27,7 @@ except:
     version = "Unknown"
     beta = False
 
-version = "b" if beta else "" + version + "-oc\0"
+version = ("b" if beta else "") + version + "-oc\0"
 encoded = version.encode(encoding="ASCII")
 print(version)
 
