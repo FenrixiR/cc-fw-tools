@@ -5,26 +5,29 @@ import subprocess, os
 SQUASHFS_ROOT = os.getenv("SQUASHFS_ROOT")
 REPOSITORY_ROOT = os.getenv("REPOSITORY_ROOT")
 
-def extract_commit() -> str:
+def extract_commit() -> (str, bool):
     git_describe_output = subprocess.run(["git", "--git-dir", os.path.join(REPOSITORY_ROOT, ".git"), "describe", "--tags"], stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
     split_output = git_describe_output.split("-")
+    beta = false
 
     if (len(split_output) >= 3):
-        version = f"b{split_output[0]}-{split_output[2][1:]}"
+        beta = true
+        version = f"{split_output[0]}-{split_output[2][1:]}"
     else:
         version = split_output[0]
 
     if version.startswith("v"):
-        return version[1:]
+        return (version[1:], beta)
     
-    return version
+    return (version, beta)
 
 try:
-    version = extract_commit()
+    (version, beta) = extract_commit()
 except:
     version = "Unknown"
+    beta = false
 
-version = version + "-oc\0"
+version = "b" if beta else "" + version + "-oc\0"
 encoded = version.encode(encoding="ASCII")
 print(version)
 
