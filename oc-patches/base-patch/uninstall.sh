@@ -25,7 +25,7 @@ umount -l /opt
 
 echo "Checking for processes still using /root using lsof:"
 # Capture the multi-line output of lsof into a variable and print it
-LSOF_ROOT=$(lsof /opt || true) # The '|| true' prevents set -e from stopping script if lsof finds nothing/fails
+LSOF_ROOT=$(lsof /root || true) # The '|| true' prevents set -e from stopping script if lsof finds nothing/fails
 echo "$LSOF_ROOT" 
 echo "Lsof check complete, unmounting /root..."
 umount /root
